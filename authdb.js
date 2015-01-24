@@ -27,10 +27,10 @@ Client.prototype.getAccount = function(token, cb) {
         }
         if (reply) {
             try {
-                reply = JSON.parse(reply)
+                reply = JSON.parse(reply);
             }
-            catch (err) {
-                return cb(err, null);
+            catch (e) {
+                return cb(e, null);
             }
             cb(null, reply);
         }
