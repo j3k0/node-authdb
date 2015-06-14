@@ -7,8 +7,9 @@ var redis = require("redis");
 var Client = function(options) {
     this.host = options.host || "127.0.0.1";
     this.port = options.port || 6379;
-
-    this.redisClient = redis.createClient(this.port, this.host);
+    this.redisClient = redis.createClient(this.port, this.host, {
+        no_ready_check: true
+    });
 
     return this;
 };
