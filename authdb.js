@@ -46,7 +46,7 @@ Client.prototype.getAccount = function(token, cb) {
 // cb(err, reply) will be called with result.
 Client.prototype.addAccount = function(token, account, cb) {
     this.redisClient.set(token, JSON.stringify(account), cb);
-    this.redisClient.expire(token, 3600 * 24 * 30); // token will be valid for 30 days
+    this.redisClient.expire(token, 3600 * 24 * 365); // token will be valid for 365 days
 };
 
 // Module object
