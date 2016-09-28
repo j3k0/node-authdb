@@ -6,6 +6,6 @@
   "author": "Jean-Christophe Hoelt <hoelt@fovea.cc>",
   "license": "MIT",
   "dependencies": {
-    "redis": "~0.12.1"
+    "redis": "^2.6.2"
   }
 }
