@@ -1,3 +1,5 @@
+'use strict';
+
 var redis = require("redis");
 
 // The AuthDB client.
@@ -5,11 +7,16 @@ var redis = require("redis");
 // Requires a link to a Redis database.
 //
 var Client = function(options) {
-    this.host = options.host || "127.0.0.1";
-    this.port = options.port || 6379;
-    this.redisClient = redis.createClient(this.port, this.host, {
-        no_ready_check: true
-    });
+    // Don't fail on missing options.
+    options = options || {};
+
+    // Can pass in redisClient directly, or we create our own
+    // using options.host/options.port with defaults.
+    this.redisClient = options.redisClient || redis.createClient(
+        options.port || 6379,
+        options.host || "127.0.0.1",
+        {no_ready_check: true}
+    );
 
     return this;
 };
