@@ -7,9 +7,6 @@ var redis = require("redis");
 // Requires a link to a Redis database.
 //
 var Client = function(options) {
-    // Don't fail on missing options.
-    options = options || {};
-
     // Can pass in redisClient directly, or we create our own
     // using options.host/options.port with defaults.
     this.redisClient = options.redisClient || redis.createClient(
@@ -61,11 +58,13 @@ Client.prototype.removeAccount = function(token, cb) {
 };
 
 // Module object
-var authdb = {
-    createClient: function(options) {
-        return new Client(options);
-    }
+var authdb = function (options) {
+    // Don't fail on missing options.
+    return new Client(options || {});
 };
+
+// Backwrads compatible.
+authdb.createClient = authdb;
 
 // Export the module object.
 module.exports = authdb;
