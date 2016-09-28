@@ -56,6 +56,10 @@ Client.prototype.addAccount = function(token, account, cb) {
     this.redisClient.expire(token, 3600 * 24 * 365); // token will be valid for 365 days
 };
 
+Client.prototype.removeAccount = function(token, cb) {
+    this.redisClient.del(token, cb);
+};
+
 // Module object
 var authdb = {
     createClient: function(options) {
