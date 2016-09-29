@@ -1,6 +1,6 @@
 {
   "name": "authdb",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "database of authenticated users",
   "main": "authdb.js",
   "author": "Jean-Christophe Hoelt <hoelt@fovea.cc>",
