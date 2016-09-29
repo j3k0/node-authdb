@@ -1,3 +1,5 @@
+'use strict';
+
 var redis = require("redis");
 
 // The AuthDB client.
@@ -5,11 +7,13 @@ var redis = require("redis");
 // Requires a link to a Redis database.
 //
 var Client = function(options) {
-    this.host = options.host || "127.0.0.1";
-    this.port = options.port || 6379;
-    this.redisClient = redis.createClient(this.port, this.host, {
-        no_ready_check: true
-    });
+    // Can pass in redisClient directly, or we create our own
+    // using options.host/options.port with defaults.
+    this.redisClient = options.redisClient || redis.createClient(
+        options.port || 6379,
+        options.host || "127.0.0.1",
+        {no_ready_check: true}
+    );
 
     return this;
 };
@@ -49,12 +53,18 @@ Client.prototype.addAccount = function(token, account, cb) {
     this.redisClient.expire(token, 3600 * 24 * 365); // token will be valid for 365 days
 };
 
-// Module object
-var authdb = {
-    createClient: function(options) {
-        return new Client(options);
-    }
+Client.prototype.removeAccount = function(token, cb) {
+    this.redisClient.del(token, cb);
 };
+
+// Module object
+var authdb = function (options) {
+    // Don't fail on missing options.
+    return new Client(options || {});
+};
+
+// Backwrads compatible.
+authdb.createClient = authdb;
 
 // Export the module object.
 module.exports = authdb;
